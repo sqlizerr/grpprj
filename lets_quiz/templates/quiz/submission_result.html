@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %} Let's Quiz | Submission Result {% endblock title %}
+{% block content %}
+<div class="container">
+	<div class="jumbotron my-4">
+
+	   	<h3 class="text-info">{{ attempted_question.question.html|safe }}</h3>
+
+		<p>
+		    <strong>Your answer: </strong>
+		    {{ attempted_question.selected_choice.html|safe }}
+		</p>
+
+		{% if attempted_question.selected_choice.is_correct %}
+		<h4 class="text-success" id="correct">Yayy!! Your answer is correct. High Five! 🙌</h4>
+		{% else %}
+		<h4 class="text-danger" id="wrong">Your answer is incorrect 😟</h4>
+		{% endif %}
+
+		<a class="btn btn-info" href="{% url 'quiz:play' %}">Show next question</a>
+	</div>
+</div>
+
+{% if attempted_question.selected_choice.is_correct %}
+<script>
+	const synth = window.speechSynthesis;
+	window.addEventListener("pagehide", synth.cancel());
+  	window.addEventListener("pageshow", prompt);
+	function prompt(){
+		const utterThis = new SpeechSynthesisUtterance();
+      	utterThis.text = "Your answer is correct!!";
+      	synth.speak(utterThis);
+	}
+
+</script>
+{% else %}
+<script>
+	const synth2 = window.speechSynthesis;
+	window.addEventListener("pagehide", synth2.cancel());
+  	window.addEventListener("pageshow", prompt);
+	function prompt(){
+		const utterThis = new SpeechSynthesisUtterance();
+      	utterThis.text = "Sad! Your answer is incorrect";
+      	synth.speak(utterThis);
+	}
+</script>
+{% endif %}
+{% endblock content %}

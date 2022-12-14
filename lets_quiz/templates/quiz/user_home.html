@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %} Let's Quiz | Welcome {% endblock title %}
+{% block content %}
+<div class="container my-4">
+    <div class="jumbotron">
+
+	      <h2 class="text-center text-info" id="t1">Congratulations!! You have successfully logged in.</h2>
+	      <h3 class="text-info text-center" id="t2">Before you play the quiz, here are the rules</h3>
+
+        <div class="row">
+
+            <div class="card border-info mx-4 my-4">
+                <div class="card-body text-info">
+                    <h4 class="card-title">Rules :</h4>
+                    <p class="card-text">
+                        <ul style="list-style:decimal;" id="l1">
+                            <li>All questions are multiple choice question.</li>
+                            <li><span class="text-danger">Only one choice is correct.</span></li>
+                            <li>Every question carry equal marks i.e. <span class="text-danger">4 marks for each question.</span>
+                            </li>
+                            <li>Every question is displayed only once per user.</li>
+                            <li>Try to answer as quickly as you can.</li>
+                            <li>If you press refresh or go back to the previous page, there will be a new question for you and the question you were on will be counted as attempted.</li>
+                            <li>Questions are displayed randomly for every user.</li>
+                            <li>You will be told immediately whether your answer was correct or incorrect once you submit the answer.</li>
+                        </ul>
+                    </p>
+                    <a href="{% url 'quiz:play' %}" class="btn btn-info" id="b1">Let's play</a>
+                </div>  
+                <div class="card-footer"></div>  
+            </div>  
+        </div>  
+
+    </div>
+</div>
+<script>
+    const synth = window.speechSynthesis;
+    const t1 = document.getElementById("t1");
+    const t2 = document.getElementById("t2");
+    const l1 = document.getElementById("l1");
+    const b1 = document.getElementById("b1");
+
+    if ('speechSynthesis' in window == 0) {
+	alert("Your browser doesn't support Google Text to Speech!");
+    }
+
+    window.addEventListener("pagehide", synth.cancel());
+    window.addEventListener("pageshow", hptts);
+    function hptts(){
+        const utterThis = new SpeechSynthesisUtterance();
+        utterThis.text = t1.textContent+t2.textContent+l1.textContent+b1.textContent;
+        synth.speak(utterThis);
+    }
+    
+</script>
+{% endblock content %}

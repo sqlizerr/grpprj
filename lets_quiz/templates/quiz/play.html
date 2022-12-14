@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if question is None %}
+
+<div class="container">
+  <div class="jumbotron my-4">
+    <h1 id="prompt"> You have already answered all of our questions. </h1>
+    <a href="{% url 'quiz:leaderboard' %}" class="btn btn-lg btn-info"><i class="fa fa-trophy" aria-hidden="true" id="lead"></i> See the leaderboard here <i class="fa fa-trophy" aria-hidden="true"></i></a>
+  </div>
+</div>
+
+{% else %}
+
+<div class="container">
+  <div class="jumbotron my-4">
+
+    <h3 class="text-info" id="ques">{{ question.html|safe }}</h3>
+    <form class="form" action="" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="question_pk" value="{{ question.pk }}">
+        {% for choice in question.choices.all %}
+          <div class="form-check mx-4">
+            <input class="form-check-input" type="radio" name="choice_pk" id="choice-{{ forloop.counter }}" value="{{ choice.pk }}">
+            <label class="form-check-label" for="choice-{{ forloop.counter }}" id="lachoice-{{ forloop.counter }}">
+              {{ choice.html|safe }}
+            </label>
+          </div>
+
+        {% endfor %}
+        <input class="btn btn-info btn-lg" type="submit" value="Submit" id="sub">  
+    </form>
+  </div>
+</div>
+{% endif %}
+{% if question is None %}
+<script>
+  const synth = window.speechSynthesis;
+  const prompt = document.getElementById("prompt");
+
+  if ('speechSynthesis' in window == 0) {
+alert("Your browser doesn't support Google Text to Speech!");
+  }
+
+  window.addEventListener("pagehide", synth.cancel());
+  window.addEventListener("pageshow", hptts);
+  function hptts(){
+      const utterThis = new SpeechSynthesisUtterance();
+      utterThis.text = prompt.textContent+",,,,,"+"check out the leaderboard for your score!";
+      synth.speak(utterThis);
+      console.log("prompt");
+  }
+</script>
+{% else %}
+<script>
+  const synth2 = window.speechSynthesis
+  const ques = document.getElementById("ques").textContent;
+  const choice1 = document.getElementById("lachoice-1").textContent;
+  const choice2 = document.getElementById("lachoice-2").textContent;
+  const choice3 = document.getElementById("lachoice-3").textContent;
+  const choice4 = document.getElementById("lachoice-4").textContent;
+  const sub = document.getElementById("sub").textContent;
+
+  if ('speechSynthesis' in window == 0) {
+alert("Your browser doesn't support Google Text to Speech!");
+  }
+
+  window.addEventListener("pagehide", synth2.cancel());
+  window.addEventListener("pageshow", hptts);
+  function hptts(){
+      const utterThis = new SpeechSynthesisUtterance();
+      utterThis.text = ques+",,,,,,,,,,,,,,,,Option 1"+choice1+"Option 2"+choice2+"Option 3"+choice3+"Option 4"+choice4+sub;
+      synth2.speak(utterThis);
+      console.log("Not prompt");
+  }
+</script>
+{% endif %}
+
+{% endblock content %}
