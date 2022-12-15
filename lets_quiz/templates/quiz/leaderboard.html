@@ -22,8 +22,15 @@
         </tbody>
     </table>
 </div>
+{% for quiz_profile in top_quiz_profiles %}
+{% if quiz_profile.user.username == user.get_username %}
+{% with score=quiz_profile.total_score %}
+
 <div id="usern">{{ user.get_username }}</div>
 <div id="score">{{ score }}</div>
+{% endwith %}
+{% endif %}
+{% endfor %}
 
 <script>
     const sleep = ms => new Promise(r => setTimeout(r, ms));
