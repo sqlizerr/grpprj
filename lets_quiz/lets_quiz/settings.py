@@ -25,7 +25,7 @@ DEFAULT_AUTO_FIELD='django.db.models.AutoField'
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'tbdy@fqf+)_@_nv71f@%8rqh02s%d@_l@_iemu35@^*r_00m9l'
 
-CSRF_TRUSTED_ORIGINS = ["https://web-production-95e4.up.railway.app", "quize.live"]
+CSRF_TRUSTED_ORIGINS = ["https://web-production-95e4.up.railway.app", "https://quize.live"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
